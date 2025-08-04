@@ -49,6 +49,29 @@ setspn -L <USER>
 Get-NetUser -SPN | select samaccountname,serviceprincipalname
 
 
+
+### Enumerate Object Permissions ###
+Get-ObjectAcl -Identity <USER>
+
+Convert-SidToName <SID>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Bloodhound ###
 # bloodhound
 cp /usr/share/sharphound/SharpHound.ps1 .
