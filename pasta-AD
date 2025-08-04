@@ -8,19 +8,48 @@
 ########################################################################################################
 
 
+# Looking for AD users, computers, key services, and vulnerable hosts and services
+#
 
 
+# For the sake of OSCP this is from an assumed breach perspective 
+
+# Initial access
+xfreerdp /u:<USER> /d:<DOMAIN> /v:<IP>
+evil-winrm -i <IP> -u <USER> -p <PASS>
 
 
-{{{ ### 1. Recon 
+{{{ 1. Initial Recon  
+
+### PowerView ###
+powershell -ep bypass
+Import-Module .\PowerView.ps1
+
+# gather a list of computers, users, and groups
+get-netdomain
+get-netuser | select cn,pwdlastset,lastlogon
+get-netgroup | select cn
+get-netgroup "domain admins" | select member
+get-netcomputer | select operatingsystem,dnshostname
+
+# check for local admin access with current user
+Find-LocalAdminAccess
+get-netsession -computername <HOSTNAME>
+.\PsLoggedon.exe \\<HOSTNAME>    # requires remote registry enabled
 
 
+### Spervice Principle Names ###
+# services launched by system it is run in context of a Service Account
+# Apps like Exchange, mssql, IIS, when integrated into AD a unique SPN associates a service to a specific service account in AD
+
+# nativley list SPN linked to a certain account
+setspn -L <USER>
+
+# powerview enumeate all accounts in the domain
+Get-NetUser -SPN | select samaccountname,serviceprincipalname
 
 
-
-
-
-{{{ ### Bloodhound ###
+### Bloodhound ###
 # bloodhound
 cp /usr/share/sharphound/SharpHound.ps1 .
 python -m http.server
@@ -34,7 +63,6 @@ Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\svc-alfresco\D
 
 
 }}}
-
 
 {{{ ### SMB ###
 
@@ -50,16 +78,12 @@ smbmap -H <IP>
 
 }}}
 
-
 {{{ ### LDAP
 
 
 
 
 }}}
-
-}}}
-
 
 
 # GPP Hash
