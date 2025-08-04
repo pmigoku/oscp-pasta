@@ -1,0 +1,37 @@
+#################################################
+
+ \ \      / /__| |__   |  _ \ __ _ ___| |_ __ _ 
+  \ \ /\ / / _ \ '_ \  | |_) / _` / __| __/ _` |
+   \ V  V /  __/ |_) | |  __/ (_| \__ \ || (_| |
+    \_/\_/ \___|_.__/  |_|   \__,_|___/\__\__,_|
+
+#################################################
+
+
+
+
+whatweb <URL>
+
+
+
+
+### Directory Enumeration ###
+
+/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
+
+
+
+# feroxbuster
+feroxbuster -u http://<URL|IP> -x pdf -x js,html -x json,docx
+
+
+
+# gobuster
+gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -t 50
+gobuster dir -u <IP> -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50
+
+# dirsearch
+dirsearch -u http://URL:PORT -x 404  
+
+# ffuf
+ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ -u http://URL:PORT/FUZZ  

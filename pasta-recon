@@ -1,0 +1,90 @@
+#######################################################
+  ____                        ____           _        
+ |  _ \ ___  ___ ___  _ __   |  _ \ __ _ ___| |_ __ _ 
+ | |_) / _ \/ __/ _ \| '_ \  | |_) / _` / __| __/ _` |
+ |  _ <  __/ (_| (_) | | | | |  __/ (_| \__ \ || (_| |
+ |_| \_\___|\___\___/|_| |_| |_|   \__,_|___/\__\__,_|
+                                                      
+#######################################################
+
+# find and replace
+:%s/<IP>/HOST_IP/g
+
+
+# screen record
+asciinema rec htb-sea.cast
+
+{{{ RECON
+
+# check connectivity
+ping -nc4 <IP>
+
+# autorecon
+sudo autorecon <IP> --dirbuster.threads=50 --dirbuster.wordlist="/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt"
+
+# Check ALL the ports
+nmap -p- --min-rate 5000 -T4 <IP> -oN tcp_full_nmap_fast
+nmap -p- --min-rate 5000 -T4 -sU <IP> -oN udp_full_nmap_fast
+
+# slow scan in case you think you missed something
+
+# scan the hits
+nmap -p <PORTS> -sV -sC <IP> -oA tcp_targeted_namp
+
+
+
+}}}
+
+{{{ Service Enumeration
+
+{{{ HTTP 80
+
+# etc hosts
+echo "<IP> <HOSTNAME>" | sudo tee -a /etc/hosts
+
+
+
+# Find directories
+gobuster dir -u <IP> -w /usr/share/wordlists/dirb/common.txt -t 50
+gobuster dir -u <IP> -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50
+
+feroxbuster -u http://<IP>:80 -t 50 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x "txt,html,php,asp,aspx,jsp"
+
+
+# fuzz directories
+ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -u "http://sea.htb/themes/FUZZ" -c -v
+# match HTTP 200 respones with -mc 200
+# use other wordlists
+/usr/share/wordlists/seclists/Discovery/Web-Content/quickhits.txt
+
+
+
+
+
+
+
+}}}
+
+{{{ SSH
+ssh <USER>@<IP> -MS /tmp/sock -o"UserKnownHostsFile=/dev/null" -o"StrictHostKeyChecking=no"
+
+}}}
+
+
+}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+}}}
+
+
