@@ -56,8 +56,9 @@ Get-ObjectAcl -Identity <USER>
 Convert-SidToName <SID>
 
 
+# The highest access permission we can have on an object is GenericAll
 
-
+Get-ObjectAcl -Identity "Management Department" | ? {$_.ActiveDirectoryRights -eq "GenericAll"} | select SecurityIdentifier,ActiveDirectoryRights
 
 
 
