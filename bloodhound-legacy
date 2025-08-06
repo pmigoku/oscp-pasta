@@ -1,0 +1,15 @@
+
+
+# download bloodhound legacy
+https://github.com/SpecterOps/BloodHound-Legacy/releases/tag/v4.3.1
+
+# unzip
+
+# run neo4j
+sudo neo4j console
+http://localhost:7474/
+
+# change password (default neo4j:neo4j)
+
+# run bloodhound
+./BloodHound --no-sandbox --disable-gpu
