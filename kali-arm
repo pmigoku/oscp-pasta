@@ -1,0 +1,15 @@
+
+# Make kerbrute for arm64
+sudo apt install gccgo-go  
+sudo apt install golang-go
+git clone https://github.com/ropnop/kerbrute.git
+cd kerbrute   
+vim Makefile
+#edit    ARCHS=amd64 386 arm64
+make linux
+cp dist/kerbrute_linux_arm64 /mnt/hgfs/OSCP/tools
+
+
+
+
+
