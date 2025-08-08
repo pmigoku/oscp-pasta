@@ -1,0 +1,31 @@
+### Some tweaks to make kali work better for me ###
+
+# vmware shared folders & guest tools
+sudo apt update
+sudo apt install -y --reinstall open-vm-tools-desktop fuse
+sudo reboot -f
+kali-tweaks
+# In the Kali Tweaks menu, select Virtualization, then Install additional packages and scripts for VMware.
+sudo mount-shared-folders
+# additional script to restart VM tools if things stop working like copy paste
+sudo restart-vm-tools
+
+# aliases 
+vim ~/.zshrc
+alias lt='ls -latrF'
+alias resize='sudo xrandr --output Virtual-1 --auto'
+alias automount='sudo mount-shared-folders'
+alias ipt='sudo iptables -nvL --line-numbers'
+alias scriptme='asciinema rec'
+alias bloodhound='/opt/BloodHound-linux-arm64/BloodHound --no-sandbox --disable-gpu'
+alias fixscroll='imwheel -b "4 5" > /dev/null 2>&1'
+
+# fix scrolling
+sudo apt install imwheel
+imwheel -b "4 5" > /dev/null 2>&1
+
+# resize screen vmware 
+sudo xrandr --output Virtual-1 --auto
+
+
+
