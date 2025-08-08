@@ -1,4 +1,21 @@
 
+# run x86 code
+wget https://snapshot.debian.org/archive/debian/20240509T024809Z/pool/main/q/qemu/qemu-user-static_8.2.3%2Bds-2_arm64.deb
+sudo apt install ./qemu-user-static_8.2.3+ds-2_arm64.deb
+sudo apt update
+sudo apt install -y qemu-user-static binfmt-support
+sudo dpkg --add-architecture amd64
+sudo apt update
+sudo apt install libc6:amd64
+sudo dpkg --add-architecture amd64
+
+# sudo apt install -y powershell
+
+# if x86 binary doesnt autorun
+qemu-x86_64-static <BINARY>
+
+
+
 # Make kerbrute for arm64
 sudo apt install gccgo-go  
 sudo apt install golang-go
@@ -8,6 +25,9 @@ vim Makefile
 #edit    ARCHS=amd64 386 arm64
 make linux
 cp dist/kerbrute_linux_arm64 /mnt/hgfs/OSCP/tools
+
+
+# x86 Docker
 
 
 
