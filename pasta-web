@@ -8,7 +8,7 @@
 #################################################
 
 
-
+### WEb Enumeration ###
 
 whatweb <URL>
 
@@ -35,3 +35,24 @@ dirsearch -u http://URL:PORT -x 404
 
 # ffuf
 ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ -u http://URL:PORT/FUZZ  
+
+
+
+### Virtual Hosts ###
+gobuster vhost -u http://<target_IP_address> -w <wordlist_file> --append-domain -t 50 -k -o <OUTPUT_FILE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
