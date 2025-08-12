@@ -17,6 +17,8 @@ whatweb <URL>
 
 ### Directory Enumeration ###
 
+
+# Kali wordlists 
 /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt
 
 
@@ -39,7 +41,11 @@ ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ -u ht
 
 
 ### Virtual Hosts ###
+# syntax
 gobuster vhost -u http://<target_IP_address> -w <wordlist_file> --append-domain -t 50 -k -o <OUTPUT_FILE>
+
+# Example
+gobuster vhost -u http://inlanefreight.htb:81 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain
 
 
 
